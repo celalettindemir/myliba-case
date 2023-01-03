@@ -1,0 +1,34 @@
+version: '3.7'
+networks:
+  myliba:
+    driver: bridge
+    name: myliba
+
+services:
+    myliba-db:
+        image: mongo:5.0
+        container_name: auth-db
+        ports:
+          - 27017:27017
+        healthcheck:
+          test: ["CMD", "mongo", "--eval", "db.runCommand('ping').ok"]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+        networks:
+          - myliba
+        volumes:
+          - ./myliba-db:/data/db
+    myliba-backend:
+      image: celal258/myliba-backend:v1.0.1
+      container_name: myliba-backend
+      restart: always
+      ports:
+        - '5002:80'
+      depends_on:
+        myliba-db:
+          condition: service_healthy
+      networks:
+        - myliba
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Test

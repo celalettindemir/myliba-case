@@ -1,0 +1,6 @@
+[submodule "myliba-backend"]
+	path = myliba-backend
+	url = https://github.com/celalettindemir/myliba-backend
+[submodule "myliba-frontend"]
+	path = myliba-frontend
+	url = https://github.com/celalettindemir/myliba-frontend.git
